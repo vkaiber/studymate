@@ -1,0 +1,75 @@
+{
+  "name": "studymate",
+  "private": true,
+  "version": "6.1.4",
+  "type": "module",
+  "description": "A local-first academic workspace for organizing courses, notes, tasks, exams, files, and study progress.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "dev:desktop": "concurrently -k \"npm:dev\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "electron": "electron .",
+    "dist:win": "npm run build && electron-builder --win nsis --x64",
+    "dist:win:dir": "npm run build && electron-builder --win dir --x64",
+    "dist:win:portable": "npm run build && electron-builder --win portable --x64"
+  },
+  "dependencies": {
+    "lucide-react": "0.468.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.3.4",
+    "vite": "5.4.21",
+    "electron": "^35.7.5",
+    "electron-builder": "^26.0.12",
+    "concurrently": "^9.1.2",
+    "wait-on": "^8.0.3"
+  },
+  "main": "electron-main.cjs",
+  "build": {
+    "appId": "com.studymate.desktop",
+    "productName": "StudyMate",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron-main.cjs",
+      "electron-preload.cjs",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "StudyMate-Setup-${version}-Windows-x64.${ext}"
+    },
+    "portable": {
+      "artifactName": "StudyMate-${version}-Windows-x64.${ext}",
+      "splashImage": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "StudyMate",
+      "deleteAppDataOnUninstall": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "runAfterFinish": true
+    },
+    "artifactName": "StudyMate-Setup-${version}-Windows-x64.${ext}"
+  },
+  "author": "vkaiber",
+  "license": "MIT"
+}
